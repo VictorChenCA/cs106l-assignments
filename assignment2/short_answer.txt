@@ -1,11 +1,10 @@
-Before submitting this file, make sure that there are no more TODO
-placeholders remaining in the file (and remove this comment too).
-
 Marriage Pact
 -------------
 
 Q1. It is your choice to use either an ordered or unordered set. In a few sentences, what are some of the tradeoffs between the two? Additionally, please give an example (that has not been shown in lecture) of a valid hash function that could be used to hash student names for an unordered set.
-A1. TODO
+
+A1. I used std::set because it keeps names sorted, making debugging easier. Ordered sets are slower at inserting and searching (O(log n)) but organized, while unordered sets are faster at inserting and searching (O(1) average) but jumbled. For this assignment, speed doesn't matter since we only insert once and iterate through. A valid hash function could be a function that takes the ASCII values of each character in the student name, multiplies it by its index in the name, concatenates these values together, and then takes the result modulo a large prime number to trim the hash size. This would produce a fairly unique hash for each student name.
 
 Q2. Note that we are saving pointers to names in the queue, not names themselves. Why might this be desired in this problem? What happens if the original set where the names are stored goes out of scope and the pointers are referenced?
-A2. TODO
+
+A2. I store pointers instead of copying strings in find_matches to save memory and improve performance. Pointers reference the existing strings in the set rather than duplicating them. However, if the original set where those strings are stored goes out of scope, the pointers become dangling (pointing to freed memory), and dereferencing them can crash the program. Therefore, the original set must remain alive until get_match finishes in this pointer-based implementation.

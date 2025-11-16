@@ -14,7 +14,7 @@
 #include <string>
 #include <unordered_set>
 
-std::string kYourName = "STUDENT TODO"; // Don't forget to change this!
+std::string kYourName = "Victor Chen";
 
 /**
  * Takes in a file name and returns a set containing all of the applicant names as a set.
@@ -28,7 +28,13 @@ std::string kYourName = "STUDENT TODO"; // Don't forget to change this!
  * to also change the corresponding functions in `utils.h`.
  */
 std::set<std::string> get_applicants(std::string filename) {
-  // STUDENT TODO: Implement this function.
+  std::ifstream file(filename);
+  std::set<std::string> applicants;
+  std::string line;
+  while (std::getline(file, line)) {
+    applicants.insert(line);
+  }
+  return applicants;
 }
 
 /**
@@ -40,7 +46,20 @@ std::set<std::string> get_applicants(std::string filename) {
  * @return          A queue containing pointers to each matching name.
  */
 std::queue<const std::string*> find_matches(std::string name, std::set<std::string>& students) {
-  // STUDENT TODO: Implement this function.
+  std::queue<const std::string*> matches;
+  
+  char your_first = name[0];
+  char your_last = name[name.find(' ') + 1];
+
+  for (const std::string& student : students) {
+    char their_first = student[0];
+    char their_last = student[student.find(' ') + 1];
+    
+    if (your_first == their_first && your_last == their_last) {
+      matches.push(&student);
+    }
+  }
+  return matches; 
 }
 
 /**
@@ -54,7 +73,18 @@ std::queue<const std::string*> find_matches(std::string name, std::set<std::stri
  *                Will return "NO MATCHES FOUND." if `matches` is empty.
  */
 std::string get_match(std::queue<const std::string*>& matches) {
-  // STUDENT TODO: Implement this function.
+  if (matches.empty()) {
+    return "NO MATCHES FOUND.";
+  }
+  
+  // Use 106 % size (my anniversary is 01/06) to find the one true match
+  size_t target_index = 106 % matches.size();
+  
+  for (size_t i = 0; i < target_index; i++) {
+    matches.pop();
+  }
+  
+  return *matches.front();
 }
 
 /* #### Please don't remove this line! #### */
